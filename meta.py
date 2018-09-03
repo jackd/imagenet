@@ -17,7 +17,7 @@ class _ImagenetMeta(object):
 
     def get_wordnet_indices(self, zero_based=True):
         """Get a dict mapping wordnet IDs to the corresponding class index."""
-        ids = self.geT_wordnet_ids()
+        ids = self.get_wordnet_ids()
         if zero_based:
             return {k: i for i, k in enumerate(ids)}
         else:
@@ -25,3 +25,18 @@ class _ImagenetMeta(object):
 
 
 meta = _ImagenetMeta()
+
+
+def load_class_names():
+    """
+    Load class names.
+
+    Sourced from
+    https://gist.github.com/aaronpolhamus/964a4411c0906315deb9f4a3723aac57
+    """
+    import os
+    path = os.path.join(os.path.dirname(__file__), 'class_names.txt')
+    # path = os.path.join(os.path.dirname(__file__), 'class_names.txt')
+    with open(path, 'r') as fp:
+        names = tuple(line.rstrip() for line in fp.readlines())
+    return names

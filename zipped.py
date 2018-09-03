@@ -41,10 +41,15 @@ def get_class_dataset(wordnet_id, mode='r'):
         lambda k: '%s_%s.JPEG' % (wordnet_id, k), lambda k: k[n:-5])
 
 
-def get_train_dataset():
+def get_all_class_datasets(mode='r'):
+    ids = get_wordnet_ids()
+    datasets = {k: get_class_dataset(k) for k in ids}
+    return datasets
+
+
+def get_train_dataset(mode='r'):
     from dids.core import BiKeyDataset
-    datasets = {k: get_class_dataset(k) for k in get_wordnet_ids()}
-    return BiKeyDataset(datasets)
+    return BiKeyDataset(get_all_class_datasets(mode=mode))
 
 
 def get_eval_dataset(mode='r'):
