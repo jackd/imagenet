@@ -4,6 +4,7 @@ from __future__ import division
 from __future__ import print_function
 
 from .path import get_meta_path
+from .path import get_validation_labels_path
 
 
 class _ImagenetMeta(object):
@@ -40,3 +41,14 @@ def load_class_names():
     with open(path, 'r') as fp:
         names = tuple(line.rstrip() for line in fp.readlines())
     return names
+
+
+def load_val_labels(zero_based=True):
+    """Load labels for validation dataset."""
+    import numpy as np
+    with open(get_validation_labels_path(), 'r') as fp:
+        n = tuple(int(l.rstrip()) for l in fp.readlines())
+    n = np.array(n, dtype=np.int32)
+    if zero_based:
+        n -= 1
+    return n
